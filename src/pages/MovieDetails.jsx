@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CommentsSection from '../components/CommentsSection';
+import { API_URL } from '../config';
 
 function MovieDetails() {
   const { id } = useParams();
@@ -25,7 +26,7 @@ function MovieDetails() {
     // Fetch movie details
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/movies/${id}`);
+        const res = await axios.get(`${API_URL}/api/movies/${id}`);
         setMovie(res.data);
         setLoading(false);
       } catch (err) {

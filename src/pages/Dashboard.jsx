@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 function Dashboard() {
   const [movies, setMovies] = useState([]);
@@ -74,11 +75,11 @@ function Dashboard() {
         const headers = { headers: { Authorization: `Bearer ${token}` } };
         
         // Fetch movies
-        const moviesRes = await axios.get('http://localhost:5000/api/movies');
+        const moviesRes = await axios.get(`${API_URL}/api/movies`);
         setMovies(moviesRes.data);
 
         // Fetch registered users (Admin only)
-        const usersRes = await axios.get('http://localhost:5000/api/users', headers);
+        const usersRes = await axios.get(`${API_URL}/api/users`, headers);
         setUsers(usersRes.data);
       } catch (err) {
         console.error("Error loading dashboard data:", err);
@@ -202,12 +203,12 @@ function Dashboard() {
     try {
       if (editingMovie) {
         // Edit movie
-        const res = await axios.put(`http://localhost:5000/api/movies/update/${editingMovie._id}`, payload, headers);
+        const res = await axios.put(`${API_URL}/api/movies/update/${editingMovie._id}`, payload, headers);
         setMovies(prev => prev.map(m => m._id === editingMovie._id ? res.data : m));
         alert("Movie details updated successfully! 🎉");
       } else {
         // Add movie
-        const res = await axios.post('http://localhost:5000/api/movies/add', payload, headers);
+        const res = await axios.post(`${API_URL}/api/movies/add`, payload, headers);
         setMovies(prev => [res.data, ...prev]);
         alert("New movie added successfully! 🎉");
       }
@@ -227,7 +228,7 @@ function Dashboard() {
     const headers = { headers: { Authorization: `Bearer ${token}` } };
 
     try {
-      await axios.delete(`http://localhost:5000/api/movies/delete/${movieId}`, headers);
+      await axios.delete(`${API_URL}/api/movies/delete/${movieId}`, headers);
       setMovies(prev => prev.filter(m => m._id !== movieId));
       alert("Movie deleted successfully! 🎉");
     } catch (err) {
@@ -341,12 +342,12 @@ function Dashboard() {
     try {
       if (editingUser) {
         // Edit User
-        const res = await axios.put(`http://localhost:5000/api/users/update/${editingUser._id}`, payload, headers);
+        const res = await axios.put(`${API_URL}/api/users/update/${editingUser._id}`, payload, headers);
         setUsers(prev => prev.map(u => u._id === editingUser._id ? res.data : u));
         alert("User details updated successfully! 🎉");
       } else {
         // Add User
-        const res = await axios.post('http://localhost:5000/api/users/add', payload, headers);
+        const res = await axios.post(`${API_URL}/api/users/add`, payload, headers);
         setUsers(prev => [res.data, ...prev]);
         alert("New user added successfully! 🎉");
       }
@@ -372,7 +373,7 @@ function Dashboard() {
     const headers = { headers: { Authorization: `Bearer ${token}` } };
 
     try {
-      const res = await axios.delete(`http://localhost:5000/api/users/delete/${targetUserId}`, headers);
+      const res = await axios.delete(`${API_URL}/api/users/delete/${targetUserId}`, headers);
       setUsers(prev => prev.filter(u => u._id !== targetUserId));
       alert(res.data.message || "User deleted successfully! 🎉");
     } catch (err) {

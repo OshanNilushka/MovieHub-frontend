@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HeroAndFilters from '../components/HeroAndFilters';
+import { API_URL } from '../config';
 
 
 function Home() {
@@ -25,7 +26,7 @@ function Home() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/movies');
+        const response = await axios.get(`${API_URL}/api/movies`);
         setMovies(response.data);
         setFilteredMovies(response.data);
       } catch (error) {

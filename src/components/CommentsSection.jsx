@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 function CommentsSection({ movieId, currentUser }) {
   const [comments, setComments] = useState([]);
@@ -11,7 +12,7 @@ function CommentsSection({ movieId, currentUser }) {
   // Fetch comments from backend
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/comments/movie/${movieId}`);
+      const res = await axios.get(`${API_URL}/api/comments/movie/${movieId}`);
       setComments(res.data);
       setLoading(false);
     } catch (err) {
@@ -37,7 +38,7 @@ function CommentsSection({ movieId, currentUser }) {
     }
 
     try {
-      const res = await axios.post(`http://localhost:5000/api/comments/movie/${movieId}`, 
+      const res = await axios.post(`${API_URL}/api/comments/movie/${movieId}`, 
         { content: trimmedComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -57,7 +58,7 @@ function CommentsSection({ movieId, currentUser }) {
     if (!token) return;
 
     try {
-      const res = await axios.put(`http://localhost:5000/api/comments/${commentId}`, 
+      const res = await axios.put(`${API_URL}/api/comments/${commentId}`, 
         { content: trimmedEditingContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -77,7 +78,7 @@ function CommentsSection({ movieId, currentUser }) {
     if (!token) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/comments/${commentId}`, {
+      await axios.delete(`${API_URL}/api/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setComments(comments.filter(c => c._id !== commentId));

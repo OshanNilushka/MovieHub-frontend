@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -56,7 +57,7 @@ function Login() {
     e.preventDefault();
     if (!validate()) return;
 
-    axios.post('http://localhost:5000/api/auth/login', { email, password })
+    axios.post(`${API_URL}/api/auth/login`, { email, password })
       .then((res) => {
         alert(res.data.message);
         localStorage.setItem('token', res.data.token); // JWT Token එක Save කරනවා
